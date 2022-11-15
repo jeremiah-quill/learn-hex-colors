@@ -7,38 +7,18 @@ import uuid from "react-uuid";
 
 export default function GamePage() {
   const [isGameOver, setIsGameOver] = useState(false);
-  const [currentColor, setCurrentColor] = useState("#ffffff");
-  const [currentGuesses, setCurrentGuesses] = useState(0);
   const [hexSelections, setHexSelections] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(30); // TODO: get this number from the params
+  const [timeLeft, setTimeLeft] = useState(60); // TODO: get this number from the params?
   const [colorHistory, setColorHistory] = useState([]);
-  const [score, setScore] = useState(0);
-
-  const getSelectionScore = (selection) => {
-    switch (selection) {
-      case 1:
-        return 100;
-      case 2:
-        return 50;
-      case 3:
-        return 10;
-    }
-  };
-  function getScore(selections) {
-    selections.reduce((total, selection) => {
-      return total + getSelectionScore(selection.numGuesses);
-    }, 0);
-    setScore((currScore) => currScore + total);
-  }
+  const [guessCount, setGuessCount] = useState(0);
+  const [penalized, setPenalized] = useState(false);
 
   function resetGame() {
     setIsGameOver(false);
-    setCurrentColor("#ffffff");
-    setCurrentGuesses(0);
     setHexSelections([]);
     setColorHistory([]);
-    setTimeLeft(30);
-    startGame();
+    setTimeLeft(60);
+    nextColor();
   }
 
   function getRandomColor() {
@@ -49,14 +29,6 @@ export default function GamePage() {
     }
     return color;
   }
-
-  function startGame() {
-    nextColor();
-  }
-
-  useEffect(() => {
-    startGame();
-  }, []);
 
   // fischer yates shuffle
   function shuffle(array) {
@@ -82,8 +54,6 @@ export default function GamePage() {
     const newQuestion = { color: randomColor, guesses: [], id: questionId, isCorrect: false };
 
     setColorHistory((currQuestions) => [...currQuestions, newQuestion]);
-    // setCurrentColor(randomColor);
-    // setColorHistory((currHistory) => [...currHistory, { color: randomColor, guesses: [], id:  }]);
     const selections = [
       { color: getRandomColor(), isShowing: true, isCorrect: false, questionId },
       { color: getRandomColor(), isShowing: true, isCorrect: false, questionId },
@@ -92,54 +62,61 @@ export default function GamePage() {
     setHexSelections(shuffle(selections));
   }
 
-  function addCorrectColor(color, numGuesses) {
-    setColorHistory((colorHistory) => [...colorHistory, { color, numGuesses: numGuesses }]);
+  function penalizeTime(seconds) {
+    setPenalized(true);
+    setTimeout(() => {
+      setPenalized(false);
+    }, 250);
+    setTimeLeft((prevTime) => prevTime - seconds);
+    console.log("penalized time");
   }
 
-  function resetCurrentGuesses() {
-    setCurrentGuesses(0);
-  }
-
+  // 1. Add guess to results
+  // 2. Check if guess is correct
+  // 3. If correct, show next color
+  // 4. If incorrect, penalize time
+  // 5. If second wrong answer, go to next question with 0 points
+  // 6. If first wrong answer, update the selections
   function handleSelection(color) {
+    setColorHistory((currQuestions) =>
+      currQuestions.map((question) =>
+        question.id === color.questionId
+          ? {
+              ...question,
+              isCorrect: color.isCorrect ? true : false,
+              guesses: [
+                ...question.guesses,
+                { color: color.color, isCorrect: color.isCorrect ? true : false },
+              ],
+            }
+          : question
+      )
+    );
     if (color.isCorrect) {
-      setColorHistory((currQuestions) =>
-        currQuestions.map((question) =>
-          question.id === color.questionId
-            ? {
-                ...question,
-                isCorrect: true,
-                guesses: [...question.guesses, { color: color.color, isCorrect: true }],
-              }
-            : question
-        )
-      );
-      // addCorrectColor(color, currentGuesses + 1);
-      // setColorHistory((colorHistory) => [...colorHistory, { color, numGuesses: numGuesses + }]);
-      // resetCurrentGuesses();
       nextColor();
+      setGuessCount(0);
     } else {
-      setColorHistory((currQuestions) =>
-        currQuestions.map((question) =>
-          question.id === color.questionId
-            ? {
-                ...question,
-                guesses: [...question.guesses, { color: color.color, isCorrect: false }],
-              }
-            : question
-        )
-      );
-      setTimeLeft((prevTime) => prevTime - 5);
-      // setCurrentGuesses((currentGuesses) => currentGuesses + 1);
-      setHexSelections((hexSelections) => {
-        return hexSelections.map((selection) => {
-          if (selection.color === color.color) {
-            return { ...selection, isShowing: false };
-          }
-          return selection;
+      penalizeTime(5);
+      if (guessCount === 1) {
+        nextColor();
+        setGuessCount(0);
+      } else {
+        setGuessCount((prevCount) => prevCount + 1);
+        setHexSelections((hexSelections) => {
+          return hexSelections.map((selection) => {
+            if (selection.color === color.color) {
+              return { ...selection, isShowing: false };
+            }
+            return selection;
+          });
         });
-      });
+      }
     }
   }
+
+  useEffect(() => {
+    nextColor();
+  }, []);
 
   if (isGameOver) return <GameOver colorHistory={colorHistory} onReset={resetGame} />;
 
@@ -154,6 +131,7 @@ export default function GamePage() {
           onTick={() => setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)}
           onTimerEnd={() => setIsGameOver(true)}
           classes={"text-4xl font-bold"}
+          penalized={penalized}
         />
       </div>
       <div
