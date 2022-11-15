@@ -13,6 +13,10 @@ export default function GamePage() {
   const [guessCount, setGuessCount] = useState(0);
   const [penalized, setPenalized] = useState(false);
 
+  useEffect(() => {
+    nextColor();
+  }, []);
+
   function resetGame() {
     setIsGameOver(false);
     setHexSelections([]);
@@ -68,7 +72,6 @@ export default function GamePage() {
       setPenalized(false);
     }, 250);
     setTimeLeft((prevTime) => prevTime - seconds);
-    console.log("penalized time");
   }
 
   // 1. Add guess to results
@@ -113,10 +116,6 @@ export default function GamePage() {
       }
     }
   }
-
-  useEffect(() => {
-    nextColor();
-  }, []);
 
   if (isGameOver) return <GameOver colorHistory={colorHistory} onReset={resetGame} />;
 
