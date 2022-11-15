@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export default function Timer({ isRunning, time }) {
-  const [timer, setTimer] = useState(time);
+export default function Timer({ time, onTick = () => {}, onTimerEnd = () => {}, classes = "" }) {
   useEffect(() => {
-    if (isRunning) {
+    if (time === 0 || time < 0) {
+      onTimerEnd();
+    } else {
       const interval = setInterval(() => {
-        setTimer((timer) => timer - 1);
+        onTick();
       }, 1000);
       return () => clearInterval(interval);
+      // }
     }
-  });
-  return <div>{timer}</div>;
+  }, [time]);
+  if (time < 0) return 0;
+  return <div className={classes}>{time}</div>;
 }
