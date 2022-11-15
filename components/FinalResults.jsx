@@ -1,8 +1,8 @@
 import { BsCheck, BsCheckLg, BsXLg } from "react-icons/bs";
 import Button from "./Button";
 
-export default function FinalResults({ colorHistory, onReset = () => {} }) {
-  if (colorHistory.length === 0) return null;
+export default function FinalResults({ results, onReset = () => {} }) {
+  if (results.length === 0) return null;
 
   function getPoints(guesses) {
     switch (guesses) {
@@ -15,9 +15,7 @@ export default function FinalResults({ colorHistory, onReset = () => {} }) {
     }
   }
 
-  const score = colorHistory
-    .filter((color) => color.isCorrect)
-    .reduce((acc, color) => acc + getPoints(color.guesses.length), 0);
+  const score = results.reduce((acc, color) => acc + getPoints(color.guesses.length), 0);
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -43,16 +41,16 @@ export default function FinalResults({ colorHistory, onReset = () => {} }) {
         </Button>
       </div>
       <div className="my-16 grid gap-8 grid-cols-8">
-        {colorHistory.map((color, idx) => (
+        {results.map((result, idx) => (
           <div key={idx} className="flex flex-col items-center">
             <div
               className="w-20 h-20 rounded-full font-bold flex justify-center items-center text-sm"
-              style={{ backgroundColor: color.color }}>
-              {color.color}
+              style={{ backgroundColor: result.color }}>
+              {result.color}
             </div>
             <div className="flex gap-2 mt-2">
-              {color.guesses.map((color, idx) =>
-                color.isCorrect ? (
+              {result.guesses.map((guess, idx) =>
+                guess.isCorrect ? (
                   <BsCheckLg key={idx} className="text-green-500" />
                 ) : (
                   <BsXLg key={idx} className="text-red-500" />

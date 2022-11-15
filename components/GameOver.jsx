@@ -1,10 +1,10 @@
 import Button from "./Button";
 import FinalResults from "./FinalResults";
 
-export default function GameOver({ colorHistory, onReset = () => {} }) {
+export default function GameOver({ results, onReset = () => {} }) {
   return (
     <div className="min-h-screen w-full">
-      <FinalResults colorHistory={colorHistory} onReset={onReset} />
+      <FinalResults results={results} onReset={onReset} />
     </div>
   );
 }

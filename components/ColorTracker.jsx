@@ -1,14 +1,14 @@
-export default function ColorTracker({ colorHistory }) {
-  if (colorHistory.length === 0) return null;
+export default function ColorTracker({ results }) {
+  if (results.length === 0) return null;
 
   return (
     <div className="flex gap-2 flex-wrap">
-      {colorHistory.map((color, idx) =>
-        color.isCorrect ? (
+      {results.map((result, idx) =>
+        result.isCorrect ? (
           <div
             key={idx}
             className="w-4 h-4 rounded-full"
-            style={{ backgroundColor: color.color }}
+            style={{ backgroundColor: result.color }}
           />
         ) : null
       )}

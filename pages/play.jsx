@@ -9,7 +9,7 @@ export default function GamePage() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [hexSelections, setHexSelections] = useState([]);
   const [timeLeft, setTimeLeft] = useState(60); // TODO: get this number from the params?
-  const [colorHistory, setColorHistory] = useState([]);
+  const [results, setResults] = useState([]);
   const [guessCount, setGuessCount] = useState(0);
   const [penalized, setPenalized] = useState(false);
 
@@ -20,7 +20,7 @@ export default function GamePage() {
   function resetGame() {
     setIsGameOver(false);
     setHexSelections([]);
-    setColorHistory([]);
+    setResults([]);
     setTimeLeft(60);
     nextColor();
   }
@@ -55,9 +55,9 @@ export default function GamePage() {
   function nextColor() {
     const questionId = uuid();
     const randomColor = getRandomColor();
-    const newQuestion = { color: randomColor, guesses: [], id: questionId, isCorrect: false };
+    const newResult = { color: randomColor, guesses: [], id: questionId, isCorrect: false };
 
-    setColorHistory((currQuestions) => [...currQuestions, newQuestion]);
+    setResults((currResults) => [...currResults, newResult]);
     const selections = [
       { color: getRandomColor(), isShowing: true, isCorrect: false, questionId },
       { color: getRandomColor(), isShowing: true, isCorrect: false, questionId },
@@ -81,18 +81,18 @@ export default function GamePage() {
   // 5. If second wrong answer, go to next question with 0 points
   // 6. If first wrong answer, update the selections
   function handleSelection(color) {
-    setColorHistory((currQuestions) =>
-      currQuestions.map((question) =>
-        question.id === color.questionId
+    setResults((currResults) =>
+      currResults.map((result) =>
+        result.id === color.questionId
           ? {
-              ...question,
+              ...result,
               isCorrect: color.isCorrect ? true : false,
               guesses: [
-                ...question.guesses,
+                ...result.guesses,
                 { color: color.color, isCorrect: color.isCorrect ? true : false },
               ],
             }
-          : question
+          : result
       )
     );
     if (color.isCorrect) {
@@ -117,13 +117,13 @@ export default function GamePage() {
     }
   }
 
-  if (isGameOver) return <GameOver colorHistory={colorHistory} onReset={resetGame} />;
+  if (isGameOver) return <GameOver results={results} onReset={resetGame} />;
 
   return (
     <div className="max-w-5xl grid pt-32 items-center mx-auto">
       <div className="flex justify-between w-full items-end p-4">
         <div>
-          <ColorTracker colorHistory={colorHistory} />
+          <ColorTracker results={results} />
         </div>
         <Timer
           time={timeLeft}
@@ -134,17 +134,17 @@ export default function GamePage() {
         />
       </div>
       <div
-        style={{ backgroundColor: colorHistory[colorHistory.length - 1]?.color }}
+        style={{ backgroundColor: results[results.length - 1]?.color }}
         className={`rounded-3xl w-full h-[350px] `}
       />
       <div className="grid grid-cols-3 w-full mx-auto py-4 gap-4 auto-cols-auto">
         {hexSelections.map((hex, idx) =>
           hex.isShowing ? (
-            <Button key={idx} onClick={() => handleSelection(hex)}>
+            <Button key={idx} classes="font-bold" onClick={() => handleSelection(hex)}>
               {hex.color}
             </Button>
           ) : (
-            <Button key={idx} classes={"bg-red-300"} disabled={true}>
+            <Button key={idx} classes={"text-red-500 line-through font-bold"} disabled={true}>
               {hex.color}
             </Button>
           )
