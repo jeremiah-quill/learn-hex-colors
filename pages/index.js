@@ -22,8 +22,8 @@ export default function Home() {
         </h1>
         <p className="text-white text-lg mt-8 mb-16">
           Choosing the correct hex code on your first guess will earn you 100 points. Second guess
-          will earn you 50 points. If you don't pick the correct hex code in 2 guesses, you lose 50
-          points and 5 seconds off your remaining time.
+          will earn you 50 points. If guess wrong twice in a row you lose 50 points and 5 seconds
+          off your remaining time.
         </p>
         <Link href="/play">
           <button className="px-4 py-2 text-3xl border-2 bg-slate-200 rounded-xl">Play</button>
