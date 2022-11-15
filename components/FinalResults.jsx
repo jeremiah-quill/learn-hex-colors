@@ -11,7 +11,7 @@ export default function FinalResults({ colorHistory, onReset = () => {} }) {
       case 2:
         return 50;
       default:
-        return 0;
+        return -50;
     }
   }
 
