@@ -4,6 +4,8 @@ import Timer from "../components/Timer";
 import GameOver from "../components/GameOver";
 import { useEffect, useState } from "react";
 import uuid from "react-uuid";
+import { FaRegThumbsUp, FaRegThumbsDown } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function GamePage() {
   const [isGameOver, setIsGameOver] = useState(false);
@@ -81,6 +83,11 @@ export default function GamePage() {
   // 5. If second wrong answer, go to next question with 0 points
   // 6. If first wrong answer, update the selections
   function handleSelection(color) {
+    // if (color.isCorrect) {
+    //   notifyPlayer(<FaRegThumbsUp className="text-5xl text-green-500" />, "Correct!");
+    // } else {
+    //   notifyPlayer(<FaRegThumbsDown className="text-5xl text-red-500" />, "Wrong!");
+    // }
     setResults((currResults) =>
       currResults.map((result) =>
         result.id === color.questionId
@@ -99,7 +106,7 @@ export default function GamePage() {
       nextColor();
       setGuessCount(0);
     } else {
-      penalizeTime(5);
+      penalizeTime(10);
       if (guessCount === 1) {
         nextColor();
         setGuessCount(0);
@@ -120,35 +127,41 @@ export default function GamePage() {
   if (isGameOver) return <GameOver results={results} onReset={resetGame} />;
 
   return (
-    <div className="max-w-5xl grid pt-32 items-center mx-auto">
-      <div className="flex justify-between w-full items-end p-4">
-        <div>
+    <div className="flex flex-col min-h-screen">
+      {/* <div className="bg-white flex justify-center items-center w-40 h-40 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all">
+        {notification?.icon}
+      </div> */}
+      <div className="flex justify-between w-full items-end">
+        <div className="grid grid-cols-12 h-[56px] w-full absolute top-0 bg-zinc-100">
           <ColorTracker results={results} />
         </div>
         <Timer
           time={timeLeft}
           onTick={() => setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)}
           onTimerEnd={() => setIsGameOver(true)}
-          classes={"text-4xl font-bold"}
+          classes={
+            "text-4xl font-bold absolute right-0 h-[56px] flex items-center justify-center px-4"
+          }
           penalized={penalized}
         />
       </div>
       <div
         style={{ backgroundColor: results[results.length - 1]?.color }}
-        className={`rounded-3xl w-full h-[350px] `}
+        className={`w-full h-full flex-1`}
       />
-      <div className="grid grid-cols-3 w-full mx-auto py-4 gap-4 auto-cols-auto">
-        {hexSelections.map((hex, idx) =>
-          hex.isShowing ? (
-            <Button key={idx} classes="font-bold" onClick={() => handleSelection(hex)}>
-              {hex.color}
-            </Button>
-          ) : (
-            <Button key={idx} classes={"text-red-500 line-through font-bold"} disabled={true}>
-              {hex.color}
-            </Button>
-          )
-        )}
+
+      <div className="grid sm:grid-cols-3 w-full mx-auto auto-cols-auto h-[200px]">
+        {hexSelections.map((hex, idx) => (
+          <Button
+            key={idx}
+            classes={`font-bold cursor-pointer text-5xl ${
+              !hex.isShowing ? "bg-red-300 opacity-50" : "hover:bg-slate-200"
+            }`}
+            onClick={() => (hex.isShowing ? handleSelection(hex) : null)}
+            disabled={hex.isShowing ? false : true}>
+            {hex.color}
+          </Button>
+        ))}
       </div>
     </div>
   );

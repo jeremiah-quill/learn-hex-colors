@@ -19,11 +19,10 @@ export default function Timer({
   }, [time]);
   if (time < 0) return 0;
   return (
-    <div
-      className={`p-2 transition-all rounded-md ${classes} ${
-        penalized === true ? "bg-red-300" : ""
-      }`}>
-      {time}
+    <div>
+      <div className={`transition-all ${classes} ${penalized === true ? "bg-red-500" : ""}`}>
+        {time}
+      </div>
     </div>
   );
 }
