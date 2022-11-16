@@ -5,17 +5,23 @@ export default function FinalResults({ results, onReset = () => {} }) {
   if (results.length === 0) return null;
 
   function getPoints(guesses) {
-    switch (guesses) {
-      case 1:
-        return 100;
-      case 2:
-        return 50;
-      default:
-        return -50;
-    }
+    const graded = guesses.reduce(
+      (gradedGuesses, guess) => {
+        if (guess.isCorrect) {
+          gradedGuesses.correct++;
+        } else {
+          gradedGuesses.incorrect++;
+        }
+        return gradedGuesses;
+      },
+      { correct: 0, incorrect: 0 }
+    );
+    return graded.correct * 100 - graded.incorrect * 50;
   }
 
-  const score = results.reduce((acc, color) => acc + getPoints(color.guesses.length), 0);
+  const score = results.reduce((totalPoints, currentColor) => {
+    return totalPoints + getPoints(currentColor.guesses);
+  }, 0);
 
   return (
     <div className="max-w-5xl mx-auto">
