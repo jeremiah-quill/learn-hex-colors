@@ -1,10 +1,7 @@
-import Button from "./Button";
 import FinalResults from "./FinalResults";
 import { FaPlay } from "react-icons/fa";
 
-export default function GameOver({ results, onReset = () => {} }) {
-  const onlyResultsWithGuesses = results.filter((result) => result.guesses.length > 0);
-
+export default function GameOver({ results, score, onReset = () => {} }) {
   return (
     <div className="min-h-screen w-full flex flex-col">
       <button
@@ -13,7 +10,7 @@ export default function GameOver({ results, onReset = () => {} }) {
         <h1 className="font-bold text-4xl text-zinc-100">Play again</h1>
         <FaPlay className="text-zinc-100 text-3xl" />
       </button>
-      <FinalResults results={onlyResultsWithGuesses} onReset={onReset} />
+      <FinalResults {...{ results, score, onReset }} />
     </div>
   );
 }
