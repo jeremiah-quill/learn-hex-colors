@@ -7,25 +7,24 @@ import { shuffle } from "../utils";
 
 export function Game() {
   const [isGameOver, setIsGameOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(1200);
   const [rounds, setRounds] = useState([]);
   const [currentRound, setCurrentRound] = useState(0);
   const [penalized, setPenalized] = useState(false);
 
   useEffect(() => {
-    setRounds((currRounds) => [
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-      getColorState(3),
-    ]);
+    setRounds(
+      Array(10)
+        .fill()
+        .map(() => getColorState(3))
+    );
   }, []);
+
+  useEffect(() => {
+    if (currentRound > 10) {
+      setIsGameOver(true);
+    }
+  }, [setIsGameOver, currentRound]);
 
   function handleSelection(color) {
     // Keep track of the current guess count (+ 1 for the current guess)
@@ -61,16 +60,21 @@ export function Game() {
 
     // If the guess is correct, add a new round of colors
     if (color.isCorrect) {
-      setCurrentRound((currRound) => currRound + 1);
-      // setRounds((currRounds, idx) => [...currRounds, getColorState(3)]);
-
+      if (currentRound === 9) {
+        setIsGameOver(true);
+      } else {
+        setCurrentRound((currRound) => currRound + 1);
+      }
       return;
     }
     // If the guess is incorrect and the guess count is 2, penalize time and add a new round of colors
     if (!color.isCorrect && currentGuessCount === 2) {
-      penalizeTime(10);
-      setCurrentRound((currRound) => currRound + 1);
-      // setRounds((currRounds, idx) => [...currRounds, getColorState(3)]);
+      if (currentRound === 9) {
+        setIsGameOver(true);
+      } else {
+        penalizeTime(10);
+        setCurrentRound((currRound) => currRound + 1);
+      }
       return;
     }
     // If the guess is incorrect and the guess count is 1, penalize time
