@@ -7,7 +7,7 @@ import { shuffle } from "../utils";
 
 export function Game() {
   const [isGameOver, setIsGameOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(1200);
+  const [timeLeft, setTimeLeft] = useState(60);
   const [rounds, setRounds] = useState([]);
   const [currentRound, setCurrentRound] = useState(0);
   const [penalized, setPenalized] = useState(false);
