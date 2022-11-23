@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaPlay } from "react-icons/fa";
 import { ImTrophy } from "react-icons/im";
 
-export default function GameOver({ results, score, onReset = () => {} }) {
+export default function GameOver({ results, score, timeRemaining, onReset = () => {} }) {
   return (
     <div className="min-h-screen w-full flex flex-col">
       <div className="grid grid-cols-2">
@@ -20,7 +20,7 @@ export default function GameOver({ results, score, onReset = () => {} }) {
           <ImTrophy className="text-zinc-100 text-3xl" />
         </Link>
       </div>
-      <FinalResults {...{ results, score, onReset }} />
+      <FinalResults {...{ results, score, onReset, timeRemaining }} />
     </div>
   );
 }

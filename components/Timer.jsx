@@ -8,7 +8,7 @@ export default function Timer({
   penalized = false,
 }) {
   useEffect(() => {
-    if (time === 0 || time < 0) {
+    if (time === 0) {
       onTimerEnd();
     } else {
       const interval = setInterval(() => {

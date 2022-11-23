@@ -110,7 +110,7 @@ export function Game() {
     setTimeout(() => {
       setPenalized(false);
     }, 250);
-    setTimeLeft((prevTime) => prevTime - seconds);
+    setTimeLeft((prevTime) => (prevTime - seconds < 0 ? 0 : prevTime - seconds));
   }
 
   function resetGame() {
@@ -137,7 +137,14 @@ export function Game() {
   }, 0);
 
   if (isGameOver)
-    return <GameOver results={transformedResults} onReset={resetGame} score={score} />;
+    return (
+      <GameOver
+        results={transformedResults}
+        onReset={resetGame}
+        score={score}
+        timeRemaining={timeLeft}
+      />
+    );
   if (rounds.length === 0) return <div>Loading...</div>;
   return (
     <div className="flex flex-col min-h-screen">
