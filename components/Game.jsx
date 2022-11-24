@@ -1,7 +1,7 @@
-import ColorTracker from "../components/ColorTracker";
+import { ColorTracker } from "../components/ColorTracker";
 import Button from "../components/Button";
 import Timer from "../components/Timer";
-import GameOver from "../components/GameOver";
+import { GameOver } from "../components/GameOver";
 import { useEffect, useState } from "react";
 import { shuffle } from "../utils";
 

@@ -1,30 +1,10 @@
-import { useEffect } from "react";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
-import Score from "./Score";
 
-export default function FinalResults({ results, score, timeRemaining, onReset = () => {} }) {
+export function FinalResults({ results }) {
   if (results.length === 0) return null;
-
-  const totalScore = score + timeRemaining * 10;
-
-  useEffect(() => {
-    async function sendScore() {
-      const res = await fetch("/api/sendScore", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({ score: totalScore, name: "Anonymous" }),
-      });
-      const data = await res.json();
-      return data;
-    }
-    sendScore();
-  }, []);
 
   return (
     <>
-      <Score {...{ score, totalScore, timeRemaining }} />
       <div className="w-full grid grid-cols-10 flex-1">
         {results.map((result, idx) => (
           <div

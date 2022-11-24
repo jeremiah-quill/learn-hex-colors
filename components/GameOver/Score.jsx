@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Score({ score, totalScore, timeRemaining }) {
+export function Score({ score, totalScore, timeRemaining }) {
   const [scoreState, setScoreState] = useState(score);
   const [timeRemainingState, setTimeRemainingState] = useState(timeRemaining);
 
