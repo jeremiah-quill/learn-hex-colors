@@ -7,10 +7,10 @@ export function Score({ score, totalScore, timeRemaining }) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (scoreState < totalScore && timeRemainingState > 0) {
-        setScoreState(scoreState + 1);
+        setScoreState(scoreState + 10);
         setTimeRemainingState(timeRemainingState - 1);
       }
-    }, 20);
+    }, 50);
     return () => clearInterval(interval);
   }, [scoreState, timeRemaining]);
 

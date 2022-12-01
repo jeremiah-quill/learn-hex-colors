@@ -3,7 +3,7 @@ import { FaPlay } from "react-icons/fa";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { connectToDatabase } from "../lib/mongodb";
 
-export default function HighscoresPage({ highscores, scores }) {
+export default function HighscoresPage({ scores }) {
   return (
     <div className="bg-zinc-100 min-h-screen w-full justify-center items-center flex flex-col">
       <div className="grid grid-cols-2 w-full">
