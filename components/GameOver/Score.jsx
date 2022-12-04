@@ -15,15 +15,23 @@ export function Score({ score, totalScore, timeRemaining }) {
   }, [scoreState, timeRemaining]);
 
   return (
-    <div className="flex items-baseline justify-center">
-      <h1 className="col-span-8 text-black text-[100px] md:text-[300px] font-bold text-center">
-        {scoreState}
-      </h1>
-      {timeRemainingState > 0 ? (
-        <h1 className="col-span-4 text-black text-5xl font-bold text-center">
-          (Time Bonus: {timeRemainingState})
-        </h1>
-      ) : null}
+    <div>
+      <h2>{/* Correct Guesses: <span>{}</span> */}</h2>
+      <h2>
+        Time Remaining: <span>{timeRemaining}</span>
+      </h2>
     </div>
   );
+  // return (
+  //   <div className="flex items-baseline justify-center">
+  //     <h1 className="col-span-8 text-black text-[100px] md:text-[300px] font-bold text-center">
+  //       {scoreState}
+  //     </h1>
+  //     {timeRemainingState > 0 ? (
+  //       <h1 className="col-span-4 text-black text-5xl font-bold text-center">
+  //         (Time Bonus: {timeRemainingState})
+  //       </h1>
+  //     ) : null}
+  //   </div>
+  // );
 }
