@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-export default function Score({ score, totalScore, timeRemaining }) {
+export function Score({ score, totalScore, timeRemaining }) {
   const [scoreState, setScoreState] = useState(score);
   const [timeRemainingState, setTimeRemainingState] = useState(timeRemaining);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (scoreState < totalScore && timeRemainingState > 0) {
-        setScoreState(scoreState + 1);
+        setScoreState(scoreState + 10);
         setTimeRemainingState(timeRemainingState - 1);
       }
-    }, 20);
+    }, 50);
     return () => clearInterval(interval);
   }, [scoreState, timeRemaining]);
 

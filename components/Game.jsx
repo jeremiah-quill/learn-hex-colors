@@ -1,17 +1,21 @@
-import ColorTracker from "../components/ColorTracker";
+import { useEffect, useState } from "react";
+
+import { ColorTracker } from "../components/ColorTracker";
 import Button from "../components/Button";
 import Timer from "../components/Timer";
-import GameOver from "../components/GameOver";
-import { useEffect, useState } from "react";
+import { GameOver } from "../components/GameOver";
+
 import { shuffle } from "../utils";
 
+/////////////////////////////
 export function Game() {
   const [isGameOver, setIsGameOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(200);
   const [rounds, setRounds] = useState([]);
   const [currentRound, setCurrentRound] = useState(0);
   const [penalized, setPenalized] = useState(false);
 
+  // Fill initial state with 10 rounds of 3 colors each. Do I have to do this?
   useEffect(() => {
     setRounds(
       Array(10)
@@ -20,14 +24,29 @@ export function Game() {
     );
   }, []);
 
+  function getColorState(n) {
+    const colors = [];
+    for (let i = 0; i < n; i++) {
+      colors.push(getRandomColor());
+    }
+    const colorState = colors.map((color, idx) => ({
+      hexCode: color,
+      selected: false,
+      isCorrect: idx === 0 ? true : false,
+    }));
+    return shuffle(colorState);
+  }
+
+  // When the current rounds ends, check if the next round is 11.  If it's 11, set isGameOver to true.
   useEffect(() => {
     if (currentRound > 10) {
       setIsGameOver(true);
     }
-  }, [setIsGameOver, currentRound]);
+  }, [currentRound, setIsGameOver]);
 
   function handleSelection(color) {
-    // Keep track of the current guess count (+ 1 for the current guess)
+    // Get current guess count to be used to determine if the user is penalized and to determine the next round.
+    // Should I keep this in state or derive it from the rounds array, which seems a little too complicated.
     const currentGuessCount =
       1 +
       rounds[currentRound].reduce((total, color) => {
@@ -38,26 +57,28 @@ export function Game() {
         }
       }, 0);
 
-    // Change chosen color to selected
-    setRounds((currRounds) =>
-      currRounds.map((round, idx) => {
+    // Update rounds with the new selection
+    setRounds((currRounds) => {
+      let newCurrRound = currRounds[currentRound].map((colorState) => {
+        if (colorState.hexCode === color.hexCode) {
+          return {
+            ...colorState,
+            selected: true,
+          };
+        } else {
+          return colorState;
+        }
+      });
+      return currRounds.map((round, idx) => {
         if (idx === currentRound) {
-          return round.map((colorState) => {
-            if (colorState.hexCode === color.hexCode) {
-              return {
-                ...colorState,
-                selected: true,
-              };
-            } else {
-              return colorState;
-            }
-          });
+          return newCurrRound;
         } else {
           return round;
         }
-      })
-    );
+      });
+    });
 
+    // Handle penalty or next round
     // If the guess is correct, add a new round of colors
     if (color.isCorrect) {
       if (currentRound === 9) {
@@ -90,20 +111,6 @@ export function Game() {
     }
     return color;
   }
-  function getColorState(n) {
-    const colors = [];
-    for (let i = 0; i < n; i++) {
-      colors.push(getRandomColor());
-    }
-
-    const colorState = colors.map((color, idx) => ({
-      hexCode: color,
-      selected: false,
-      isCorrect: idx === 0 ? true : false,
-    }));
-
-    return shuffle(colorState);
-  }
 
   function penalizeTime(seconds) {
     setPenalized(true);
@@ -115,7 +122,7 @@ export function Game() {
 
   function resetGame() {
     setIsGameOver(false);
-    setTimeLeft(60);
+    setTimeLeft(100);
     setRounds(
       Array(10)
         .fill()
