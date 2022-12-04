@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Card } from "./Card";
 
-import { ColorTracker } from "../components/ColorTracker";
+// import { ColorTracker } from "../components/ColorTracker";
 import Button from "../components/Button";
 import Timer from "../components/Timer";
 import { GameOver } from "../components/GameOver";
@@ -157,7 +158,7 @@ export function Game() {
     <div className="flex flex-col min-h-screen">
       <div className="grid grid-cols-12 h-[56px] w-full absolute top-0 bg-zinc-100">
         <div className="col-span-10 grid grid-cols-10">
-          <ColorTracker rounds={transformedResults} />
+          {/* <ColorTracker rounds={transformedResults} /> */}
         </div>
         <div className="col-span-1 text-4xl flex justify-center items-center font-bold">
           {score}
@@ -178,24 +179,25 @@ export function Game() {
         style={{
           backgroundColor: rounds[currentRound].filter((color) => color.isCorrect)[0].hexCode,
         }}
-        className={`w-full h-full flex-1`}
-      />
-
-      <div className="grid sm:grid-cols-3 w-full mx-auto auto-cols-auto h-[200px]">
-        {rounds.length > 0 &&
-          rounds[currentRound].map((color, idx) => (
-            <Button
-              key={idx}
-              classes={`font-bold text-5xl ${
-                color.selected
-                  ? "bg-red-300 opacity-50 cursor-disabled"
-                  : "hover:bg-slate-200 cursor-pointer"
-              }`}
-              onClick={() => (color.selected ? null : handleSelection(color))}
-              disabled={color.selected}>
-              {color.hexCode}
-            </Button>
-          ))}
+        className={`w-full h-full flex-1`}>
+        <div className="w-full absolute bottom-16  z-100">
+          <Card className="grid sm:grid-cols-3 gap-2 w-full max-w-5xl mx-auto auto-cols-auto h-[200px]">
+            {rounds.length > 0 &&
+              rounds[currentRound].map((color, idx) => (
+                <Button
+                  key={idx}
+                  classes={`font-bold text-5xl rounded-lg ${
+                    color.selected
+                      ? "bg-red-300 opacity-50 cursor-disabled"
+                      : "hover:bg-slate-200 cursor-pointer"
+                  }`}
+                  onClick={() => (color.selected ? null : handleSelection(color))}
+                  disabled={color.selected}>
+                  {color.hexCode}
+                </Button>
+              ))}
+          </Card>
+        </div>
       </div>
     </div>
   );

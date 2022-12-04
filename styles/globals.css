@@ -10,3 +10,19 @@
 .react-colorful__saturation {
   border-radius: 0px !important;
 }
+
+* {
+  font-family: Rubik, sans-serif;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: var(--placeholder-color);
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: var(--placeholder-color);
+}
+::placeholder {
+  color: var(--placeholder-color);
+}
