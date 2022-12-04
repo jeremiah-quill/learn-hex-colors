@@ -13,8 +13,8 @@ export default function Home() {
       <div className="max-w-5xl mx-auto pt-32 grid grid-cols-4 gap-8">
         <Card className="col-span-4 text-4xl md:text-4xl font-bold text-zinc-900 ">
           <h1>
-            Tired of looking up colors? Take a few minutes and learn your hex codes. Then test your
-            skills.
+            Tired of looking up colors? Take a few minutes and learn a few hex code patterns, then
+            test your skills.
           </h1>
         </Card>
         <Card className="col-span-3">

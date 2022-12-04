@@ -156,10 +156,10 @@ export function Game() {
   if (rounds.length === 0) return <div>Loading...</div>;
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="grid grid-cols-12 h-[56px] w-full absolute top-0 bg-zinc-100">
-        <div className="col-span-10 grid grid-cols-10">
-          {/* <ColorTracker rounds={transformedResults} /> */}
-        </div>
+      <Card className="flex w-full h-[56px] absolute top-0 bg-zinc-100">
+        {/* <div className="col-span-10 grid grid-cols-10"> */}
+        {/* <ColorTracker rounds={transformedResults} /> */}
+        {/* </div> */}
         <div className="col-span-1 text-4xl flex justify-center items-center font-bold">
           {score}
         </div>
@@ -174,7 +174,7 @@ export function Game() {
             penalized={penalized}
           />
         </div>
-      </div>
+      </Card>
       <div
         style={{
           backgroundColor: rounds[currentRound].filter((color) => color.isCorrect)[0].hexCode,
