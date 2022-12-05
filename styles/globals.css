@@ -26,3 +26,15 @@
 ::placeholder {
   color: var(--placeholder-color);
 }
+.timer-animation {
+  animation: timer-animation 0.5s ease-in-out;
+}
+
+@keyframes timer-animation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}

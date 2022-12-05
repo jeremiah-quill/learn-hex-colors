@@ -51,7 +51,7 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
 
   return (
     <div style={{ backgroundColor: color }} className="min-h-screen bg">
-      <div className="grid grid-cols-3 row-span-2 gap-8 pt-16 mx-auto w-full max-w-6xl">
+      <div className="grid md:grid-cols-3 md:row-span-2 gap-8 pt-16 mx-auto w-full max-w-6xl">
         <Card className="font-bold col-span-1 row-span-1 flex flex-col">
           <h1 className="text-6xl font-bold p-2 border-b border-b-zinc-300">
             {totalScore} <span className="text-2xl">points</span>
@@ -68,7 +68,7 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
             </h2>
           </div>
         </Card>
-        <Card className="flex flex-col row-span-2 gap-2 col-span-2 h-full">
+        <Card className="flex flex-col  gap-2 md:col-span-2 h-full">
           <form onSubmit={onSubmit} className="flex flex-col gap-8 h-full">
             <div className="grid gap-2">
               <label htmlFor="nickname" className="italic">
@@ -82,7 +82,7 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
                 className="col-span-2 p-2 rounded-md block inset-4"
               />
             </div>
-            <div className="grid gap-2">
+            {/* <div className="grid gap-2">
               <label htmlFor="nickname" className="italic">
                 Pick an icon
               </label>
@@ -106,32 +106,32 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
                   className="rounded-lg"
                 />
               </div>
-            </div>
+            </div> */}
             <button
               type="submit"
-              className="w-full p-2 text-3xl font-bold hover:bg-zinc-300 transition-all rounded-md">
+              className="w-full p-2 text-3xl font-bold hover:bg-slate-200 transition-all rounded-md flex-1">
               Submit
             </button>
           </form>
         </Card>
         <Card className="col-span-1 row-span-1 grid gap-2 rounded-lg overflow-hidden shadow-md bg-zinc-100 text-left">
           <button
-            className="hover:bg-zinc-300  text-3xl transition-all font-bold rounded-lg px-2 text-left"
+            className="hover:bg-slate-200  text-3xl transition-all font-bold rounded-lg px-2 text-left"
             onClick={onReset}>
             Play
           </button>
           <Link
-            className="hover:bg-zinc-300 text-3xl transition-all font-bold rounded-lg px-2"
+            className="hover:bg-slate-200 text-3xl transition-all font-bold rounded-lg px-2"
             href="/highscores">
             Highscores
           </Link>
           <Link
-            className="hover:bg-zinc-300  text-3xl font-bold transition-all rounded-lg px-2"
+            className="hover:bg-slate-200  text-3xl font-bold transition-all rounded-lg px-2"
             href="/">
             Home
           </Link>
           <Link
-            className="hover:bg-zinc-300 text-3xl font-bold transition-all rounded-lg px-2"
+            className="hover:bg-slate-200 text-3xl font-bold transition-all rounded-lg px-2"
             href="https://www.github.com/jeremiah-quill">
             Github
           </Link>

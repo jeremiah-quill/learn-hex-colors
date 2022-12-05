@@ -11,7 +11,7 @@ import { shuffle } from "../utils";
 /////////////////////////////
 export function Game() {
   const [isGameOver, setIsGameOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(200);
+  const [timeLeft, setTimeLeft] = useState(60);
   const [rounds, setRounds] = useState([]);
   const [currentRound, setCurrentRound] = useState(0);
   const [penalized, setPenalized] = useState(false);
@@ -156,25 +156,25 @@ export function Game() {
   if (rounds.length === 0) return <div>Loading...</div>;
   return (
     <div className="flex flex-col min-h-screen">
-      <Card className="flex w-full h-[56px] absolute top-0 bg-zinc-100">
-        {/* <div className="col-span-10 grid grid-cols-10"> */}
-        {/* <ColorTracker rounds={transformedResults} /> */}
-        {/* </div> */}
-        <div className="col-span-1 text-4xl flex justify-center items-center font-bold">
-          {score}
-        </div>
-        <div className="col-span-1">
-          <Timer
-            time={timeLeft}
-            onTick={() => setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)}
-            onTimerEnd={() => setIsGameOver(true)}
-            classes={
-              "text-4xl font-bold absolute right-0 h-[56px] flex items-center justify-center px-4"
-            }
-            penalized={penalized}
-          />
-        </div>
-      </Card>
+      <div className="w-full absolute top-[50px] z-100">
+        <Card className="flex w-full mx-auto max-w-5xl bg-zinc-100">
+          {/* <div className="col-span-10 grid grid-cols-10"> */}
+          {/* <ColorTracker rounds={transformedResults} /> */}
+          {/* </div> */}
+          <div className="col-span-1 text-4xl flex justify-center items-center font-bold">
+            {score}
+          </div>
+          <div className="col-span-1 ml-auto">
+            <Timer
+              time={timeLeft}
+              onTick={() => setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)}
+              onTimerEnd={() => setIsGameOver(true)}
+              classes={"text-4xl font-bold flex p-2 rounded-lg items-center justify-center"}
+              penalized={penalized}
+            />
+          </div>
+        </Card>
+      </div>
       <div
         style={{
           backgroundColor: rounds[currentRound].filter((color) => color.isCorrect)[0].hexCode,

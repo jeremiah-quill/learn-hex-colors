@@ -31,17 +31,17 @@ export default function Home() {
         </Card>
         <Card className="col-span-1 grid grid-cols-1 gap-2 rounded-lg overflow-hidden shadow-md bg-zinc-100 text-left">
           <Link
-            className="hover:bg-zinc-300 flex items-center text-3xl transition-all font-bold rounded-lg px-2"
+            className="hover:bg-slate-200 flex items-center text-3xl transition-all font-bold rounded-lg px-2"
             href="/play">
             Play
           </Link>
           <Link
-            className="hover:bg-zinc-300 flex items-center text-3xl font-bold transition-all rounded-lg px-2"
+            className="hover:bg-slate-200 flex items-center text-3xl font-bold transition-all rounded-lg px-2"
             href="/highscores">
             Highscores
           </Link>
           <Link
-            className="hover:bg-zinc-300 flex items-center text-3xl font-bold transition-all rounded-lg px-2"
+            className="hover:bg-slate-200 flex items-center text-3xl font-bold transition-all rounded-lg px-2"
             href="https://www.github.com/jeremiah-quill">
             Github
           </Link>
