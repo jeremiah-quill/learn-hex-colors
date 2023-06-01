@@ -15,26 +15,26 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
   const [nameInput, setNameInput] = useState("");
   const [color, setColor] = useState("#1880ff"); // control color picker
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  async function onSubmit(e) {
-    e.preventDefault();
-    const name = nameInput.trim();
-    if (name.length > 0) {
-      const res = await fetch("/api/sendScore", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: nameInput,
-          score: totalScore,
-        }),
-      });
-      const json = await res.json();
-      router.push("/highscores");
-    }
-  }
+  // async function onSubmit(e) {
+  //   e.preventDefault();
+  //   const name = nameInput.trim();
+  //   if (name.length > 0) {
+  //     const res = await fetch("/api/sendScore", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name: nameInput,
+  //         score: totalScore,
+  //       }),
+  //     });
+  //     const json = await res.json();
+  //     router.push("/highscores");
+  //   }
+  // }
 
   const totalScore = score + timeRemaining * 10;
 
@@ -68,7 +68,7 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
             </h2>
           </div>
         </Card>
-        <Card className="flex flex-col  gap-2 md:col-span-2 h-full">
+        {/* <Card className="flex flex-col  gap-2 md:col-span-2 h-full">
           <form onSubmit={onSubmit} className="flex flex-col gap-8 h-full">
             <div className="grid gap-2">
               <label htmlFor="nickname" className="italic">
@@ -82,7 +82,7 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
                 className="col-span-2 p-2 rounded-md block inset-4"
               />
             </div>
-            {/* <div className="grid gap-2">
+            <div className="grid gap-2">
               <label htmlFor="nickname" className="italic">
                 Pick an icon
               </label>
@@ -106,32 +106,32 @@ export function GameOver({ results, score, timeRemaining, onReset = () => {} }) 
                   className="rounded-lg"
                 />
               </div>
-            </div> */}
+            </div>
             <button
               type="submit"
               className="w-full p-2 text-3xl font-bold hover:bg-slate-200 transition-all rounded-md flex-1">
               Submit
             </button>
           </form>
-        </Card>
+        </Card> */}
         <Card className="col-span-1 row-span-1 grid gap-2 rounded-lg overflow-hidden shadow-md bg-zinc-100 text-left">
           <button
-            className="hover:bg-slate-200  text-3xl transition-all font-bold rounded-lg px-2 text-left"
+            className="hover:bg-slate-200  text-3xl transition-all font-bold rounded-lg px-2 text-left flex items-center"
             onClick={onReset}>
             Play
           </button>
-          <Link
+          {/* <Link
             className="hover:bg-slate-200 text-3xl transition-all font-bold rounded-lg px-2"
             href="/highscores">
             Highscores
-          </Link>
+          </Link> */}
           <Link
-            className="hover:bg-slate-200  text-3xl font-bold transition-all rounded-lg px-2"
+            className="hover:bg-slate-200  text-3xl font-bold transition-all rounded-lg px-2 flex items-center"
             href="/">
             Home
           </Link>
           <Link
-            className="hover:bg-slate-200 text-3xl font-bold transition-all rounded-lg px-2"
+            className="hover:bg-slate-200 text-3xl font-bold transition-all rounded-lg px-2 flex items-center"
             href="https://www.github.com/jeremiah-quill">
             Github
           </Link>
